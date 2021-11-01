@@ -1,1 +1,3 @@
-fn main() {}
+fn main() {
+    lib::sort::test_function();
+}
