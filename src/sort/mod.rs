@@ -76,9 +76,26 @@ macro_rules! test_sort_stable {
 
         impl Copy for V {}
 
-        let mut d = vec![V::new(11), V::new(12)];
+        let mut d = vec![
+            V::new(11),
+            V::new(12),
+            V::new(21),
+            V::new(22),
+            V::new(11),
+            V::new(12),
+        ];
         $a(&mut d);
-        assert_eq!(d, vec![V::new(11), V::new(12)]);
+        assert_eq!(
+            d,
+            vec![
+                V::new(11),
+                V::new(12),
+                V::new(11),
+                V::new(12),
+                V::new(21),
+                V::new(22)
+            ]
+        );
     }};
 }
 

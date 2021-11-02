@@ -31,8 +31,6 @@ fn partition<T: PartialOrd + Copy + std::fmt::Debug>(a: &mut [T]) -> usize {
             break;
         }
 
-        println!("swapping {} {} {:?}", l, r, a);
-
         let n = a[l];
         a[l] = a[r];
         a[r] = n;
