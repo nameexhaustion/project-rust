@@ -1,4 +1,4 @@
-fn merge<T: std::cmp::PartialOrd + std::marker::Copy>(a: Vec<T>, b: Vec<T>) -> Vec<T> {
+fn merge<T: PartialOrd + Copy>(a: Vec<T>, b: Vec<T>) -> Vec<T> {
     if a.len() == 0 {
         return b;
     }
@@ -14,7 +14,7 @@ fn merge<T: std::cmp::PartialOrd + std::marker::Copy>(a: Vec<T>, b: Vec<T>) -> V
     for _ in 0..a.len() + b.len() {
         let value_a = *a.get(index_a).unwrap();
         let value_b = *b.get(index_b).unwrap();
-        match value_a < value_b {
+        match value_a <= value_b {
             true => {
                 r.push(value_a);
                 index_a += 1;
@@ -25,12 +25,12 @@ fn merge<T: std::cmp::PartialOrd + std::marker::Copy>(a: Vec<T>, b: Vec<T>) -> V
             }
         }
 
-        if index_a >= a.len() {
+        if index_a == a.len() {
             r.extend_from_slice(&b[index_b..]);
             break;
         }
 
-        if index_b >= b.len() {
+        if index_b == b.len() {
             r.extend_from_slice(&a[index_a..]);
             break;
         }

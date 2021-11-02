@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 mod insertion;
 use insertion::insertion_sort;
 mod merge;
@@ -20,9 +22,71 @@ macro_rules! test_sort {
     }};
 }
 
+macro_rules! test_sort_stable {
+    ($a:ident) => {{
+        #[derive(Debug)]
+        struct V {
+            n: u32,
+            d: u32,
+        }
+
+        impl V {
+            fn new(n: u32) -> V {
+                let mut d = n;
+                while d > 10 {
+                    d /= 10;
+                }
+                V { n, d }
+            }
+        }
+
+        impl PartialEq for V {
+            fn eq(&self, other: &Self) -> bool {
+                self.n == other.n
+            }
+        }
+
+        impl PartialOrd for V {
+            fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+                Some(self.d.cmp(&other.d))
+            }
+
+            fn lt(&self, other: &Self) -> bool {
+                self.d < other.d
+            }
+            fn le(&self, other: &Self) -> bool {
+                self.d <= other.d
+            }
+            fn gt(&self, other: &Self) -> bool {
+                self.d > other.d
+            }
+            fn ge(&self, other: &Self) -> bool {
+                self.d >= other.d
+            }
+        }
+
+        impl Clone for V {
+            fn clone(&self) -> Self {
+                V {
+                    n: self.n,
+                    d: self.d,
+                }
+            }
+        }
+
+        impl Copy for V {}
+
+        let mut d = vec![V::new(11), V::new(12)];
+        $a(&mut d);
+        assert_eq!(d, vec![V::new(11), V::new(12)]);
+    }};
+}
+
 pub fn test_function() {
     test_sort!(insertion_sort);
+    test_sort_stable!(insertion_sort);
     test_sort!(merge_sort);
+    test_sort_stable!(merge_sort);
 }
 
 #[cfg(test)]
@@ -32,10 +96,12 @@ mod test {
     #[test]
     fn test_insertion() {
         test_sort!(insertion_sort);
+        test_sort_stable!(insertion_sort);
     }
 
     #[test]
     fn test_merge() {
         test_sort!(merge_sort);
+        test_sort_stable!(merge_sort);
     }
 }

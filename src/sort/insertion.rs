@@ -1,4 +1,4 @@
-pub fn insertion_sort<T: std::cmp::PartialOrd + std::marker::Copy>(a: &mut [T]) {
+pub fn insertion_sort<T: PartialOrd + Copy>(a: &mut [T]) {
     for i in 1..a.len() {
         let k = a[i];
         let mut j = i;
