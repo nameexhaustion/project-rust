@@ -39,7 +39,7 @@ fn merge<T: PartialOrd + Copy>(a: Vec<T>, b: Vec<T>) -> Vec<T> {
     r
 }
 
-fn merge_sort_main<T: std::cmp::PartialOrd + std::marker::Copy>(a: Vec<T>) -> Vec<T> {
+fn mergesort_main<T: std::cmp::PartialOrd + std::marker::Copy>(a: Vec<T>) -> Vec<T> {
     if a.len() <= 1 {
         return a;
     }
@@ -47,14 +47,14 @@ fn merge_sort_main<T: std::cmp::PartialOrd + std::marker::Copy>(a: Vec<T>) -> Ve
     let mut right: Vec<T> = Vec::new();
     left.extend_from_slice(&a[0..(a.len() / 2)]);
     right.extend_from_slice(&a[(a.len() / 2)..a.len()]);
-    merge(merge_sort_main(left), merge_sort_main(right))
+    merge(mergesort_main(left), mergesort_main(right))
 }
 
-pub fn merge_sort<T: std::cmp::PartialOrd + std::marker::Copy>(a: &mut [T]) {
+pub fn mergesort<T: std::cmp::PartialOrd + std::marker::Copy>(a: &mut [T]) {
     let mut b: Vec<T> = Vec::new();
     b.extend_from_slice(a);
 
-    let b = merge_sort_main(b);
+    let b = mergesort_main(b);
 
     a.clone_from_slice(&b);
 }

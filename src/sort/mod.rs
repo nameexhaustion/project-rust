@@ -1,9 +1,9 @@
-use std::collections::HashMap;
-
 mod insertion;
-use insertion::insertion_sort;
+use insertion::insertionsort;
 mod merge;
-use merge::merge_sort;
+use merge::mergesort;
+mod quick;
+use quick::quicksort;
 
 macro_rules! test_sort {
     ($a:ident) => {{
@@ -83,10 +83,11 @@ macro_rules! test_sort_stable {
 }
 
 pub fn test_function() {
-    test_sort!(insertion_sort);
-    test_sort_stable!(insertion_sort);
-    test_sort!(merge_sort);
-    test_sort_stable!(merge_sort);
+    test_sort!(insertionsort);
+    test_sort_stable!(insertionsort);
+    test_sort!(mergesort);
+    test_sort_stable!(mergesort);
+    test_sort!(quicksort);
 }
 
 #[cfg(test)]
@@ -95,13 +96,18 @@ mod test {
 
     #[test]
     fn test_insertion() {
-        test_sort!(insertion_sort);
-        test_sort_stable!(insertion_sort);
+        test_sort!(insertionsort);
+        test_sort_stable!(insertionsort);
     }
 
     #[test]
     fn test_merge() {
-        test_sort!(merge_sort);
-        test_sort_stable!(merge_sort);
+        test_sort!(mergesort);
+        test_sort_stable!(mergesort);
+    }
+
+    #[test]
+    fn test_quick() {
+        test_sort!(quicksort);
     }
 }
