@@ -1,60 +1,50 @@
-fn merge<T: PartialOrd + Copy>(a: Vec<T>, b: Vec<T>) -> Vec<T> {
-    if a.len() == 0 {
-        return b;
+fn merge<T: PartialOrd + Copy>(l: &mut [T], r: &mut [T], a: &mut [T]) {
+    if l.len() == 0 {
+        a.clone_from_slice(r);
     }
 
-    if b.len() == 0 {
-        return a;
+    if r.len() == 0 {
+        a.clone_from_slice(l);
     }
 
-    let mut r: Vec<T> = Vec::new();
-    let mut index_a = 0;
-    let mut index_b = 0;
+    let mut index_l = 0;
+    let mut index_r = 0;
 
-    for _ in 0..a.len() + b.len() {
-        let value_a = *a.get(index_a).unwrap();
-        let value_b = *b.get(index_b).unwrap();
-        match value_a <= value_b {
+    for i in 0..a.len() {
+        let value_l = l.get(index_l).unwrap();
+        let value_r = r.get(index_r).unwrap();
+        match value_l <= value_r {
             true => {
-                r.push(value_a);
-                index_a += 1;
+                a[i] = *value_l;
+                index_l += 1;
             }
             false => {
-                r.push(value_b);
-                index_b += 1;
+                a[i] = *value_r;
+                index_r += 1;
             }
         }
 
-        if index_a == a.len() {
-            r.extend_from_slice(&b[index_b..]);
+        if index_l == l.len() {
+            a[i + 1..].clone_from_slice(&r[index_r..]);
             break;
         }
 
-        if index_b == b.len() {
-            r.extend_from_slice(&a[index_a..]);
+        if index_r == r.len() {
+            a[i + 1..].clone_from_slice(&l[index_l..]);
             break;
         }
     }
-
-    r
 }
 
-fn mergesort_main<T: std::cmp::PartialOrd + std::marker::Copy>(a: Vec<T>) -> Vec<T> {
+pub fn mergesort<T: std::cmp::PartialOrd + std::marker::Copy>(a: &mut [T]) -> &mut [T] {
     if a.len() <= 1 {
         return a;
     }
+
     let mut left: Vec<T> = Vec::new();
     let mut right: Vec<T> = Vec::new();
     left.extend_from_slice(&a[0..(a.len() / 2)]);
     right.extend_from_slice(&a[(a.len() / 2)..a.len()]);
-    merge(mergesort_main(left), mergesort_main(right))
-}
-
-pub fn mergesort<T: std::cmp::PartialOrd + std::marker::Copy>(a: &mut [T]) {
-    let mut b: Vec<T> = Vec::new();
-    b.extend_from_slice(a);
-
-    let b = mergesort_main(b);
-
-    a.clone_from_slice(&b);
+    merge(mergesort(&mut left), mergesort(&mut right), a);
+    a
 }
