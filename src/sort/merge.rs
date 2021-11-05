@@ -1,12 +1,4 @@
 fn merge<T: PartialOrd + Copy>(l: &mut [T], r: &mut [T], a: &mut [T]) {
-    if l.len() == 0 {
-        a.clone_from_slice(r);
-    }
-
-    if r.len() == 0 {
-        a.clone_from_slice(l);
-    }
-
     let mut index_l = 0;
     let mut index_r = 0;
 
