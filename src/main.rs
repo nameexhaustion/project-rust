@@ -1,3 +1,3 @@
 fn main() {
-    lib::sort::test_function();
+    lib::dsa::test_slist();
 }
