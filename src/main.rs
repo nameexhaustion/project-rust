@@ -1,3 +1,3 @@
 fn main() {
-    lib::dsa::test_slist();
+    lib::dsa::dlist::test_dlist();
 }

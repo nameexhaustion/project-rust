@@ -82,3 +82,15 @@ impl<'a, T> Iterator for IterMut<'a, T> {
         })
     }
 }
+
+pub fn test_slist() {
+    {
+        let mut l = List::<u128>::new();
+
+        for _ in 1..200 {
+            for _ in 1..10000 {
+                l.push(999999);
+            }
+        }
+    }
+}
