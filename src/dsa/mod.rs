@@ -1,3 +1,4 @@
+mod dlist;
 mod slist;
 
 pub fn test_slist() {
